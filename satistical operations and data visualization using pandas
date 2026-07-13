@@ -1,0 +1,75 @@
+# ==========================================================
+# STEP 1: Create Sample Dataset
+# ==========================================================
+import pandas as pd
+import numpy as np
+
+data = {
+    "EmpID": [201,202,203,204,205,206,207,208,209,210],
+    "Name": ["Aakash","Bhavana","Catherine","Deepak","Elina","Faisal","Gokul","Harini","Imran","Janani"],
+    "Sales": [78,92,85,67,90,73,95,81,69,88],
+    "Customer_Satisfaction": [82,94,87,70,91,75,97,84,72,89],
+    "Attendance": [96,98,95,88,99,91,100,94,89,97],
+    "Performance": ["Good","Excellent","Good","Average","Excellent","Good","Excellent","Good","Average","Excellent"]
+}
+
+df = pd.DataFrame(data)
+
+print("\n================ ORIGINAL DATASET ================\n")
+print(df)
+
+print("\n___Categorical Operations___")
+print(df["Performance"].value_counts())
+
+print(df["Performance"].value_counts(normalize=True) * 100)
+
+print(df["Performance"].unique())
+
+print(df["Performance"].nunique())
+
+print(df[df["Performance"] == "Excellent"])
+
+print(df[df["Performance"] == "Good"])
+
+print(df.groupby("Performance")[["Sales","Customer_Satisfaction","Attendance"]].mean())
+
+print("\n___total and average___")
+df["Total"] = df["Sales"] + df["Customer_Satisfaction"] + df["Attendance"]
+df["Average"] = df["Total"] / 3
+
+print("SORTING:")
+print(df.sort_values(by="Sales"))
+
+print(df.sort_values(by="Sales", ascending=False))
+
+print("FILTERING")
+print(df[df["Sales"] > 80])
+print(df[df["Performance"] == "Excellent"])
+
+import matplotlib.pyplot as plt
+
+print("\nVISUALIZATION:")
+print("\nBAR CHART:")
+df[["Sales","Customer_Satisfaction","Attendance"]].mean().plot(kind="bar")
+plt.title("\nAverage Employee Scores")
+
+print("\nHISTOGRAM:")
+df["Sales"].plot(kind="hist", bins=5)
+plt.title("\nSales Distribution")
+
+print("\nPIE CHART:")
+df["Performance"].value_counts().plot(kind="pie", autopct="%1.1f%%")
+plt.title("\nPerformance Distribution")
+
+print("\nLINE PLOT:")
+df["Total"].plot(kind="line", marker="o")
+plt.title("\nEmployee-wise Total Score")
+
+print("\nSCATTER PLOT:")
+df.plot(kind="scatter", x="Sales", y="Customer_Satisfaction")
+plt.title("\nSales vs Customer Satisfaction")
+
+print("\nBOX PLOT:")
+df[["Sales","Customer_Satisfaction","Attendance"]].plot(kind="box")
+plt.title("\nPerformance Score Distribution")
+
